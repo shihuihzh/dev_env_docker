@@ -1,0 +1,25 @@
+mysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    volumes:
+      - "D:/DEV/docker_data/mysql/data:/var/lib/mysql"
+    restart: always
+redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - "D:/DEV/docker_data/redis/data:/data"
+    command: redis-server --appendonly yes
+    restart: always
+rabbitmq:
+    image: daocloud.io/rabbitmq:3-management
+    volumes:
+      - "D:/DEV/docker_data/rabbitmq/data/mnesia/:/var/lib/rabbitmq/mnesia/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    restart: always
