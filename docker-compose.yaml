@@ -1,25 +1,47 @@
-mysql:
-    image: mysql
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
       - "3306:3306"
     volumes:
-      - "D:/DEV/docker_data/mysql/data:/var/lib/mysql"
+      - "/home/zhanhao/DEV/docker_data/mysql/data:/var/lib/mysql"
+      - "/home/zhanhao/DEV/docker_data/mysql/conf.d:/etc/mysql/conf.d"
     restart: always
-redis:
+  adminer:
+    image: adminer
+    restart: always
+    links: 
+      - mysql
+    ports:
+      - 3300:8080
+    restart: always
+
+  redis:
     image: redis
     ports:
       - "6379:6379"
     volumes:
-      - "D:/DEV/docker_data/redis/data:/data"
+      - "/home/zhanhao/DEV/docker_data/redis/data:/data"
     command: redis-server --appendonly yes
     restart: always
-rabbitmq:
-    image: daocloud.io/rabbitmq:3-management
-    volumes:
-      - "D:/DEV/docker_data/rabbitmq/data/mnesia/:/var/lib/rabbitmq/mnesia/"
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-    restart: always
+    #zookeeper:
+    #    image: zookeeper
+    #    ports:
+    #      - "2181:2181"
+    #    restart: always
+    #rabbitmq:
+    #    image: rabbitmq:management-alpine
+    #    volumes:
+    #      - "/home/zhanhao/DEV/docker_data/rabbitmq/:/var/lib/rabbitmq/"
+    #    ports:
+    #      - "15672:15672"
+    #      - "5672:5672"
+    #    restart: always
+    #nexus:
+    #    image: sonatype/nexus3
+    #    ports:
+    #      - "8081:8081"
